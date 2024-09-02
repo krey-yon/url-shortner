@@ -14,22 +14,12 @@ app.use(express.json());
 
 app.use("/url", urlRoute)
 
-app.get("/:shortId", async (req, res) => {
-    // const shortId = req.params.shortId;
-    const { shortID } = req.params;
+app.get("/:shortId", async (req, res) => {    
+    const shortID = req.params.shortId;
+    const urlDoc = await URL.findOne({ shortID });
 
-    try {
-        const urlDoc = await URL.findOne({ shortID });
-        console.log(urlDoc)
-
-        if (urlDoc){
-            res.redirect(urlDoc.redirectURL);
-        } else {
-            res.status(404).send("Short URL not found");
-        }
-    } catch (err) {
-        console.error(err);
-        res.status(500).send("Internal Server Error");
+    if (urlDoc) {
+        res.redirect(urlDoc.redirectURL)
     }
 });
 
