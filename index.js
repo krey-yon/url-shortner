@@ -15,17 +15,15 @@ app.use(express.json());
 app.use("/url", urlRoute)
 
 app.get("/:shortId", async (req, res) => {
-    const shortId = req.params.shortId;
+    // const shortId = req.params.shortId;
+    const { shortID } = req.params;
 
     try {
-        const entry = await URL.findOneAndUpdate(
-            { shortId },
-            { $push: { visitHistory: Date.now() } },
-            { new: true }
-        );
+        const urlDoc = await URL.findOne({ shortID });
+        console.log(urlDoc)
 
-        if (entry) {
-            res.redirect(entry.originalURL);
+        if (urlDoc){
+            res.redirect(urlDoc.redirectURL);
         } else {
             res.status(404).send("Short URL not found");
         }
