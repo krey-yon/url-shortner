@@ -39,6 +39,6 @@ app.get("/", async (req, res) => {
      )
 })
 
-app.
+
 
 app.listen(PORT, () => console.log(`Server is live at PORT: ${PORT}`))
